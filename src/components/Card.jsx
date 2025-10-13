@@ -1,23 +1,32 @@
+
+import { useContext} from "react"
+import { MangaContext } from "../MangaContext"
 export default function Card(){
+	const {manga, loading} = useContext(MangaContext)
+
+	if (loading) return <h1 style={{color: "white"}}>Cargando...</h1>
 
 	return(
-      <div id="card_containter" class="index-manga-card">
-        <div class="card" style="width: 18rem">
-           <img
-             id="index-manga-banner" 
-             src="..." 
-             class="card-img-top" 
-             alt="MangaBanner" 
-           /> 
-           <div class="card-body"> 
-             <h5 id="" class="card-title">Card title</h5> 
-             <p id="index-anime-description" class="card-text"> 
-               Some quick example text to build on the card title and make up the 
-               bulk of the card’s content. 
-             </p> 
-             <a href="#" class="btn btn-primary">Go somewhere</a> 
-           </div> 
-         </div> 
-      </div>
+	  <div id="card_containter" className="index-manga-card">
+		{manga.map((info, index) => (
+
+		<div id={ index } className="card" style={{width: "18rem"}}>
+		   <img
+			 id="index-manga-banner" 
+			 src={info.banner}
+			 className="card-img-top" 
+			 alt="MangaBanner" 
+		   /> 
+		   <div className="card-body"> 
+			 <h5 id="" className="card-title"> {info.title}</h5> 
+			 <p id="index-anime-description" className="card-text"> 
+							{info.description ? info.description.length > 200 ? info.description.slice(0,200)+'...': info.descriptio: info.descriptionn }
+			 </p> 
+			 <a href="#" className="btn btn-primary">See more about this manga</a> 
+		   </div> 
+		 </div> 
+			))}
+
+	  </div>
 	)	
 }

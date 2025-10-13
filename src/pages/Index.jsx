@@ -1,3 +1,4 @@
+import Card from '../components/Card.jsx'
 export default function Index() {
   return (
     <main className="main-background">
@@ -8,6 +9,8 @@ export default function Index() {
         up to date in one place.
       </p>
       <div id="card_containter" className="index-manga-card"></div>
+      <Card/>
+
     </main>
   );
 }
