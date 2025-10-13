@@ -10,9 +10,9 @@ export default function Navbar() {
       >
         <div className="container-fluid">
           {/* Titulo */}
-          <a className="navbar-brand MangaPing" href="#">
+          <Link className="navbar-brand MangaPing" to="/">
             MangaPing!
-          </a>
+          </Link>
           {/* Boton desplegable*/}
           <button
             className="navbar-toggler"
@@ -46,20 +46,23 @@ export default function Navbar() {
               {/* Botones Sign in / Sign up */}
               <li className="nav-item my-2 d-flex justify-content-end">
                 <div className="d-flex gap-2">
-                  <button
+                  <Link
                     id="btn-signin"
                     className="btn btn-login"
                     type="button"
+					to = "/login"
+
                   >
                     Sign in
-                  </button>
-                  <button
+                  </Link>
+                  <Link
                     id="btn-signup"
                     className="btn btn-login"
                     type="button"
+					to = "/register"
                   >
                     Sign up
-                  </button>
+                  </Link>
                 </div>
               </li>
             </ul>
