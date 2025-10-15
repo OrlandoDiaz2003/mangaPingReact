@@ -20,10 +20,10 @@ export default function Card(){
 		   <div className="card-body"> 
 			 <h5 id="" className="card-title"> {info.title}</h5> 
 			 <p id="index-anime-description" className="card-text"> 
-							{info.description ? info.description.length > 200 ? info.description.slice(0,200)+'...': info.descriptio: info.descriptionn }
+							{info.description ? info.description.length > 200 ? info.description.slice(0,200)+'...': info.description: info.description }
 			 </p> 
-			 <a href="#" className="btn btn-primary">See more about this manga</a> 
 		   </div> 
+			 <a href="#" className="btn btn-primary" style={{ display:"flex", justifyContent:"center"}}>See more about this manga</a> 
 		 </div> 
 			))}
 
