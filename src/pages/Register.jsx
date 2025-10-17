@@ -1,6 +1,10 @@
-import { useState } from "react";
+import { useState, useContext} from "react";
+import { AuthContext } from "../AuthContext";
 
 export default function Register(){
+
+	const {register} = useContext(AuthContext)
+
 	const [password, setPassword] = useState("");
 	const [email, setEmail] = useState("");
 	const [userName, setUserName] = useState("");
@@ -10,16 +14,28 @@ export default function Register(){
 		e.preventDefault();
 		
 		if(!userName || !email){
-			setError("Este usuario no existe");
+			setError("Complete los campos para poder registrarse");
 			return;
 		}
 		if(!password){
-			setError("Ingresa una contraseña")
+			setError("Ingresa una contraseña valida")
+			return 
 		}
 
 		if(password.length < 8){
 			setError("La contraseña tiene que tener mas de 8 caracteres")
+			return 
 		}
+		
+		const users = JSON.parse(localStorage.getItem("users")) || [];
+        const exits = users.some(users => users.mail === email || users.name === userName)
+		if(exits){
+			setError("Esta cuenta ya existe")
+			return
+		}
+		register({ username: userName,email: email, password: password })
+		console.log(userName)
+		return
 	}
 	return (
     <main className="register-background">
@@ -30,9 +46,9 @@ export default function Register(){
           <input
             type="text"
             className="form-control"
+            onChange={(e) => setUserName(e.target.value)}
             id="input-name"
             placeholder="UserName"
-            onChange={(e) => setUserName(e.target.value)}
           />
           <label htmlFor="Name">User Name</label>
         </div>

@@ -1,5 +1,21 @@
+import { useState } from "react"
 
 export default function Login(){
+	const [username, setUsername] = useState("")
+	const [password, setPassword] = useState("")
+	const [error, setError] = useState("")
+
+	const handleSubmit = (e) =>{
+		e.preventDefault()
+
+		if(!username){
+			setError("Enter a valid user name")
+		}
+
+		if(!password){
+			setError("You have to enter a password to login")
+		}
+	}
 
 	return(
 		<main className="register-background">
@@ -9,6 +25,7 @@ export default function Login(){
 					<input
 						id="login-user-name"
 						type="text"
+						onChange={(e) => setUsername(e.target.value)}
 						className="form-control"
 						placeholder="Password"
 					/>
@@ -18,6 +35,7 @@ export default function Login(){
 					<input
 						id="login-user-passwd"
 						type="password"
+						onChange={(e) => setPassword(e.target.value)}
 						className="form-control"
 						placeholder="Password"
 					/>
@@ -28,11 +46,13 @@ export default function Login(){
 						id="btn-login"
 						type="submit"
 						className="btn btn-primary register-btn"
+						onClick={handleSubmit}
 					>
 						{" "}
 						Sign In
 					</button>
 				</div>
+				{error && <p style={ {color:"red" }}>{error}</p>}
 				<div className="mx-5 forget-passwd">
 					<a href="#">¿Did you forgot your password?</a>
 				</div>
