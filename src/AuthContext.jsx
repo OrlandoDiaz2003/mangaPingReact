@@ -4,9 +4,9 @@ export const AuthContext = createContext()
 
 export default function AuthProvider( { children }){
 	const [user, setUser] = useState(null)
+	const [login, setLogin] = useState(false)
 	
 	const register = ({ username, email, password }) => {
-		console.log(username)
 		const newUser = {
 			name: username,
 			mail: email,
@@ -17,6 +17,7 @@ export default function AuthProvider( { children }){
 		const users = JSON.parse(localStorage.getItem("users")) || [];
 		users.push(newUser)
 		localStorage.setItem("users", JSON.stringify(users))
+		setLogin(true)
 	}
 
 	return(

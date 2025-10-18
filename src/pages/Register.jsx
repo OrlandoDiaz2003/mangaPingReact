@@ -1,5 +1,6 @@
 import { useState, useContext} from "react";
 import { AuthContext } from "../AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Register(){
 
@@ -9,6 +10,8 @@ export default function Register(){
 	const [email, setEmail] = useState("");
 	const [userName, setUserName] = useState("");
 	const [error, setError] = useState("");
+
+	const navigate = useNavigate()
 
 	const handleSubmit = (e) =>{
 		e.preventDefault();
@@ -35,6 +38,7 @@ export default function Register(){
 		}
 		register({ username: userName,email: email, password: password })
 		console.log(userName)
+		navigate("/explore")
 		return
 	}
 	return (
