@@ -7,12 +7,13 @@ export default function Register(){
 	const {register} = useContext(AuthContext)
 
 	const [password, setPassword] = useState("");
+	const [confirmPassword, setConfirmPassword] = useState("");
 	const [email, setEmail] = useState("");
+	const [confirmEmail, setConfirmEmail] = useState("");
 	const [userName, setUserName] = useState("");
 	const [error, setError] = useState("");
 
 	const navigate = useNavigate()
-
 	const handleSubmit = (e) =>{
 		e.preventDefault();
 		
@@ -20,9 +21,17 @@ export default function Register(){
 			setError("Complete los campos para poder registrarse");
 			return;
 		}
+		if(email != confirmEmail){
+			setError("Los correos no coinciden")
+			return 
+		}
 		if(!password){
 			setError("Ingresa una contraseña valida")
 			return 
+		}
+		if(password != confirmPassword){
+			setError("Las contraseñas no coinciden")
+			return
 		}
 
 		if(password.length < 8){
@@ -73,7 +82,7 @@ export default function Register(){
             type="email"
             className="form-control"
             id="input-email-confirm"
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setConfirmEmail(e.target.value)}
             placeholder="name@example.com"
           />
           <label htmlFor="floatingInput">Email Address Confirm</label>
@@ -95,7 +104,7 @@ export default function Register(){
           <input
             type="password"
             className="form-control"
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             id="input-password-confirm"
             placeholder="Password"
           />
