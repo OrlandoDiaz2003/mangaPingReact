@@ -1,14 +1,14 @@
-import { Link } from "react-router-dom"
-import {  useState } from "react"
+import {  useState, useContext, useEffect} from "react"
 import { AuthContext } from "../AuthContext"
 import { useNavigate } from "react-router-dom"
+
 export default function Login(){
 	const [username, setUsername] = useState("")
 	const [password, setPassword] = useState("")
 	const [error, setError] = useState("")
 	const navigate = useNavigate()
 
-	const [login, setLogin ]  = useState(AuthContext)
+	const {setLogin}  = useContext(AuthContext)
 
 
 	const handleSubmit = (e) =>{
@@ -24,14 +24,16 @@ export default function Login(){
 
 		const users = JSON.parse(localStorage.getItem("users"))||[];
 
-		const exits = users.some(user => user.name === username || user.passwd === password)
+		const exits = users.some(user => user.name === username && user.passwd === password)
+
 		if(!exits){
 			setError("No se ha encontrado este usuario")
 			return
 		}
+		
+		localStorage.setItem("login",JSON.stringify(true))
 		setLogin(true)
-		if(login) navigate("/explore")
-		console.log(login)
+		navigate("/explore")
 	}
 
 	return(
@@ -68,7 +70,6 @@ export default function Login(){
 						{" "}
 						Sign In
 					</button>
-					{login && <Link to="/"></Link>}
 				</div>
 				{error && <p style={ {color:"red" }}>{error}</p>}
 				<div className="mx-5 forget-passwd">

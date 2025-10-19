@@ -5,7 +5,7 @@ import userPhoto from '../assets/user_photo.jpg'
 
 export default function Navbar() {
 
-	const {login} = useContext(AuthContext)
+	const {login, logout} = useContext(AuthContext)
 	console.log("el estado de login es: "+ login)
 
 	return (
@@ -70,33 +70,39 @@ export default function Navbar() {
 											<img
 												className="user-photo object-sm-contain"
 												src={userPhoto}
-												alter="user-photo"
+												alt="user-photo"
 											/>
 										</button>
 										<ul className="dropdown-menu dropdown-menu-end profile-menu">
 											<li>
-												<a className="dropdown-item" href="profile.html">
+												<Link className="dropdown-item" href="profile.html">
 													Profile
-												</a>
+												</Link>
 											</li>
 											<li>
 												<hr className="dropdown-divider" />
 											</li>
 											<li>
-												<a className="dropdown-item" href="#">
-														Favorites
-												</a>
+												<Link className="dropdown-item" to="#">
+													Favorites
+												</Link>
 											</li>
 											<li>
-												<a className="dropdown-item" href="#">
+												<Link className="dropdown-item" to="#">
 													My List
-												</a>
+												</Link>
 											</li>
 											<li>
-												<a className="dropdown-item" href="#">
+												<Link className="dropdown-item" to="#">
 													Settings
-												</a>
+												</Link>
 											</li>
+											<li>
+												<Link className="dropdown-item" onClick={logout} to="/">
+													Log out
+												</Link>
+											</li>
+
 										</ul>
 									</div>
 								</>
