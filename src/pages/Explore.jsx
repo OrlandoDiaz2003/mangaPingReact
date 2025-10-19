@@ -1,4 +1,23 @@
+import { useState } from "react"
+import Card from '../components/Card.jsx'
+import MangaProvider from "../MangaContext.jsx"
+
 export default function Explore(){
+	const [selectedGenre, setSelectedGenre] = useState("")
+	const [selectedStatus, setSelectedStatus] = useState("")
+	const [selectedType, setSelectedType] = useState("")
+	const [url , setUrl] = useState("https://kitsu.io/api/edge/manga?sort=popularityRank")
+	console.log(selectedGenre,selectedStatus,selectedType)
+
+	const buildUrl = () => {
+	  let url = "https://kitsu.io/api/edge/manga?sort=popularityRank"
+	  if(selectedGenre) url += `&filter[genres]=${selectedGenre}`;
+	  if(selectedStatus) url += `&filter[status]=${selectedStatus}`;
+	  if(selectedType) url += `&filter[subtype]=${selectedType}`;
+
+	 setUrl(url)
+	}
+
 	return(
 		<main>
 			<div>
@@ -17,7 +36,7 @@ export default function Explore(){
 					<li>
 						<label htmlFor="genreSelect">Géneros:</label>
 						<br />
-						<select id="genreSelect" className="filter-select">
+						<select id="genreSelect" onChange={(e) => setSelectedGenre(e.target.value)} className="filter-select">
 							<option value="">All</option>
 							<option value="Action">Action</option>
 							<option value="Adventure">Adventure</option>
@@ -34,7 +53,7 @@ export default function Explore(){
 					<li className="mt-2">
 						<label htmlFor="statusSelect">Status:</label>
 						<br />
-						<select id="statusSelect" className="filter-select">
+						<select id="statusSelect" onChange={(e) => setSelectedStatus(e.target.value)} className="filter-select">
 							<option value="">All</option>
 							<option value="current">OnGoing</option>
 							<option value="finished">Finished</option>
@@ -44,7 +63,7 @@ export default function Explore(){
 					<li className="mt-2">
 						<label htmlFor="mangaTypeSelect">Manga type:</label>
 						<br />
-						<select id="mangaTypeSelect" className="filter-select">
+						<select id="mangaTypeSelect"onChange={(e)=> setSelectedType(e.target.value)} className="filter-select">
 							<option value="">All</option>
 							<option value="manga">Manga</option>
 							<option value="manhwa">Manhwa</option>
@@ -56,15 +75,15 @@ export default function Explore(){
 						</select>
 					</li>
 					<li className="mt-3 text-center">
-						<button id="applyFilter" className="btn btn-filter btn-sm">
+						<button id="applyFilter" onClick={buildUrl}className="btn btn-filter btn-sm">
 							Filtrar
 						</button>
 					</li>
 				</ul>
 			</div>
-			<div id="card_containter" className="index-manga-card">
-				{/* Cards insertadas con JS */}
-			</div>
+				<MangaProvider url={url}>
+					<Card />
+				</MangaProvider>
 			<div className="d-flex justify-content-center mt-5 mb-5">
 				<button id="loadMore" className="btn btn-loadMore btn-lg">
 					Load More
@@ -74,3 +93,4 @@ export default function Explore(){
 
 	)
 }
+

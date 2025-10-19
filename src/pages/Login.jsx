@@ -1,4 +1,4 @@
-import {  useState, useContext, useEffect} from "react"
+import {  useState, useContext } from "react"
 import { AuthContext } from "../AuthContext"
 import { useNavigate } from "react-router-dom"
 
@@ -30,7 +30,8 @@ export default function Login(){
 			setError("No se ha encontrado este usuario")
 			return
 		}
-		
+		const user = users.find((user) => user.name === username)
+		localStorage.setItem("currentUser",JSON.stringify(user))
 		localStorage.setItem("login",JSON.stringify(true))
 		setLogin(true)
 		navigate("/explore")

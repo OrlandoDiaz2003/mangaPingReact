@@ -2,14 +2,14 @@ import { createContext, useState, useEffect} from "react";
 
 export const MangaContext = createContext()
 
-export default function MangaProvider({ children }){
+export default function MangaProvider({ children, url = "https://kitsu.io/api/edge/manga?sort=popularityRank"}){
 	const [manga, setManga] = useState([]);
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		(async () =>{
 			try {
-				const response = await fetch("https://kitsu.io/api/edge/manga?sort=popularityRank")
+				const response = await fetch(url)
 				if(!response.ok){
 					throw new Error(`Http error status code:${response.status}`)
 				}
@@ -32,7 +32,8 @@ export default function MangaProvider({ children }){
 
 			}
 		})();
-	}, [])
+	}, [url])
+	
 	return (
 		<MangaContext.Provider value={ {manga, loading} }>
 			{ children }

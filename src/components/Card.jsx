@@ -1,4 +1,3 @@
-
 import { useContext} from "react"
 import { MangaContext } from "../MangaContext"
 export default function Card(){

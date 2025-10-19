@@ -46,6 +46,8 @@ export default function Register(){
 			return
 		}
 		register({ username: userName,email: email, password: password })
+		const currentUser = { name:userName, mail:email, passwd:password }
+		localStorage.setItem("currentUser",JSON.stringify(currentUser))
 		console.log(userName)
 		navigate("/explore")
 		return

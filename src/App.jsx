@@ -5,6 +5,7 @@ import AuthProvider from './AuthContext.jsx'
 import Login from './pages/Login.jsx'
 import Register from './pages/Register.jsx'
 import Explore from './pages/Explore.jsx'
+import Profile from './pages/Profile.jsx'
 import { BrowserRouter, Routes,Route } from 'react-router-dom'
 
 export default function App(){
@@ -20,6 +21,7 @@ export default function App(){
 							<Route path="/login" element={<Login/>}/>
 							<Route path="/register" element={<Register/>}/>
 							<Route path="/explore" element={<Explore/>}/>
+							<Route path="/profile" element={<Profile/>}/>
 						</Routes>
 					</BrowserRouter>
 				</MangaProvider>

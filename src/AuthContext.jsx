@@ -25,7 +25,9 @@ export default function AuthProvider( { children }){
 
 	const logout = () => {
 		localStorage.setItem("login", JSON.stringify(false))
+		localStorage.setItem("currentUser", JSON.stringify(null))
 		setLogin(JSON.parse(localStorage.getItem("login")) || false)
+
 	}
 
 	return(
