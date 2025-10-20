@@ -9,7 +9,6 @@ export default function Card(){
 	const handleClick = (title) => {
 		navigate(`/manga/${encodeURIComponent(title)}`)
 		console.log(title)
-
 	}
 
 	return(

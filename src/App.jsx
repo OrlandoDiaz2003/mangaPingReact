@@ -21,8 +21,8 @@ export default function App(){
 							<Route path="/" element={<Index/>}/>
 							<Route path="/login" element={<Login/>}/>
 							<Route path="/register" element={<Register/>}/>
-							<Route path="/explore" element={<Explore/>}/>
-							<Route path="/profile" element={<Profile/>}/>
+							<Route path="/explore/:offset" element={<Explore/>}/>
+							<Route path="/profile/" element={<Profile/>}/>
 							<Route path="/manga/:title" element={<MangaPage/>}/>
 						</Routes>
 					</BrowserRouter>

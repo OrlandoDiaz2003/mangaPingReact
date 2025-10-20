@@ -1,12 +1,16 @@
 import { Link } from "react-router-dom";
-import { useContext } from "react"; 
+import { useContext, useState } from "react"; 
 import { AuthContext } from "../AuthContext";
 import userPhoto from '../assets/user_photo.jpg'
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
 
 	const {login, logout} = useContext(AuthContext)
+	const [title, setTitle] = useState("")
+	const navigate = useNavigate()
 	console.log("el estado de login es: "+ login)
+	console.log(title)
 
 	return (
 		<header>
@@ -41,19 +45,18 @@ export default function Navbar() {
 										className="form-control me-2"
 										type="search"
 										placeholder="Search"
+										onChange={(e) => setTitle(e.target.value)}
 										aria-label="Search"
 										style={{ maxWidth: 250 }}
 									/>
-									<button className="btn btn-search" type="submit">
-										Search
-									</button>
+									<Link className="btn btn-search" to={`/manga/${title}`} type="submit"> Search </Link>
 								</form>
 							</li>
 
 							{login && 
 								<>
 									<div style={{alignContent:"center"}}>
-										<Link id="btn-explore" to="/explore" className="btn-nav btn">
+										<Link id="btn-explore" to="/explore/0" className="btn-nav btn">
 											Explore
 										</Link>
 										<Link id="btn-calendar" to="/" className="btn-nav btn">

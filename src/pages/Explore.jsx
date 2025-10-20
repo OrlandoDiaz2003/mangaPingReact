@@ -1,14 +1,28 @@
 import { useState } from "react"
 import Card from '../components/Card.jsx'
+import {  useParams, useNavigate} from "react-router-dom"
 import MangaProvider from "../MangaContext.jsx"
 
 export default function Explore(){
 	const [selectedGenre, setSelectedGenre] = useState("")
 	const [selectedStatus, setSelectedStatus] = useState("")
 	const [selectedType, setSelectedType] = useState("")
-	const [url , setUrl] = useState("https://kitsu.io/api/edge/manga?sort=popularityRank")
+	const limit =15 
+	const navigate = useNavigate()
+
+	let {offset}= useParams()
+	let offsetNum = Number(offset) 
+	const [url , setUrl] = useState(`https://kitsu.io/api/edge/manga?sort=popularityRank&page[limit]=${limit}&page[offset]=${offsetNum}`)
 	console.log(selectedGenre,selectedStatus,selectedType)
 
+	const handleClick = () =>{
+		offsetNum += 10
+		offset = offsetNum
+		navigate(`/explore/${offset}`)
+		window.location.reload()
+		console.log(offset)
+
+	}
 	const buildUrl = () => {
 	  let url = "https://kitsu.io/api/edge/manga?sort=popularityRank"
 	  if(selectedGenre) url += `&filter[genres]=${selectedGenre}`;
@@ -85,7 +99,7 @@ export default function Explore(){
 					<Card />
 				</MangaProvider>
 			<div className="d-flex justify-content-center mt-5 mb-5">
-				<button id="loadMore" className="btn btn-loadMore btn-lg">
+				<button id="loadMore" onClick={handleClick} className="btn btn-loadMore btn-lg">
 					Load More
 				</button>
 			</div>
