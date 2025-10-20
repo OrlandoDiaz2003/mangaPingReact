@@ -1,9 +1,16 @@
 import { useContext} from "react"
 import { MangaContext } from "../MangaContext"
+import { useNavigate } from "react-router-dom"
 export default function Card(){
 	const {manga, loading} = useContext(MangaContext)
+	const navigate = useNavigate()
 
 	if (loading) return <h1 style={{color: "white"}}>Cargando...</h1>
+	const handleClick = (title) => {
+		navigate(`/manga/${encodeURIComponent(title)}`)
+		console.log(title)
+
+	}
 
 	return(
 	  <div id="card_containter" className="index-manga-card">
@@ -22,7 +29,7 @@ export default function Card(){
 							{info.description ? info.description.length > 200 ? info.description.slice(0,200)+'...': info.description: info.description }
 			 </p> 
 		   </div> 
-			 <a href="#" className="btn btn-primary" style={{ display:"flex", justifyContent:"center"}}>See more about this manga</a> 
+			 <button onClick={() => handleClick(info.title)} className="btn btn-primary" style={{ display:"flex", justifyContent:"center"}}>See more about this manga</button> 
 		 </div> 
 			))}
 

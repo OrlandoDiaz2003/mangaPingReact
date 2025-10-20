@@ -6,6 +6,7 @@ import Login from './pages/Login.jsx'
 import Register from './pages/Register.jsx'
 import Explore from './pages/Explore.jsx'
 import Profile from './pages/Profile.jsx'
+import MangaPage from './pages/MangaPage.jsx'
 import { BrowserRouter, Routes,Route } from 'react-router-dom'
 
 export default function App(){
@@ -22,6 +23,7 @@ export default function App(){
 							<Route path="/register" element={<Register/>}/>
 							<Route path="/explore" element={<Explore/>}/>
 							<Route path="/profile" element={<Profile/>}/>
+							<Route path="/manga/:title" element={<MangaPage/>}/>
 						</Routes>
 					</BrowserRouter>
 				</MangaProvider>
