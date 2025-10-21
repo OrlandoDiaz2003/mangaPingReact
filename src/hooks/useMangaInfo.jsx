@@ -26,7 +26,9 @@ export default function useMangaFetch(url){
 						status: info.status,
 						chapterCount: info.chapterCount,
 						synopsis: info.synopsis,
-						volumeCount: info.volumeCount
+						volumeCount: info.volumeCount,
+						nextRelease: info.nextRelease,
+						updatedAt: info.updatedAt
 					}
 				}) 
 				setLoading(false)
