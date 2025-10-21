@@ -59,7 +59,7 @@ export default function Navbar() {
 										<Link id="btn-explore" to="/explore/0" className="btn-nav btn">
 											Explore
 										</Link>
-										<Link id="btn-calendar" to="/" className="btn-nav btn">
+										<Link id="btn-calendar" to="/calendar" className="btn-nav btn">
 											Calendar
 										</Link>
 									</div>
