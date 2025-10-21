@@ -7,31 +7,47 @@ export default function Explore(){
 	const [selectedGenre, setSelectedGenre] = useState("")
 	const [selectedStatus, setSelectedStatus] = useState("")
 	const [selectedType, setSelectedType] = useState("")
-	const limit =15 
 	const navigate = useNavigate()
 
 	let {offset}= useParams()
-	let offsetNum = Number(offset) 
-	const [url , setUrl] = useState(`https://kitsu.io/api/edge/manga?sort=popularityRank&page[limit]=${limit}&page[offset]=${offsetNum}`)
-	console.log(selectedGenre,selectedStatus,selectedType)
+	offset = Number(offset) 
+	const limit =12 
 
-	const handleClick = () =>{
-		offsetNum += 10
-		offset = offsetNum
+	const [url , setUrl] = useState(`https://kitsu.io/api/edge/manga?sort=popularityRank&page[limit]=${limit}&page[offset]=${offset}`)
+
+	const applyFilters = () => {
+	   let urlFilter = url
+
+	   if(selectedStatus) urlFilter += `&filter[status]=${selectedStatus}`
+	   if(selectedGenre) urlFilter  += `&filter[genres]=${selectedGenre}`
+	   if(selectedType) urlFilter += `&filter[subtype]=${selectedType}`
+
+	   console.log("the url with filters is :"+urlFilter)
+	   setUrl(urlFilter)
+	}
+	const handleLoadMore = ()=>{
+		offset += Number(12)
+		console.log("la url de loadmore es: "+ url)
+		let baseUrl = `https://kitsu.io/api/edge/manga?sort=popularityRank&page[limit]=${limit}&page[offset]=${offset}`
+
+		//maintain the filters on the url after loading more mangas
+		if(selectedGenre){
+			baseUrl += `&filter[genres]=${selectedGenre}`
+			setUrl(baseUrl)
+		}
+		if(selectedStatus){
+			baseUrl += `&filter[status]=${selectedStatus}`
+			setUrl(baseUrl)
+		}
+		if(selectedType){
+			baseUrl += `&filter[subtype]=${selectedType}`
+		}
+		else{
+			setUrl(baseUrl)
+		}
+
 		navigate(`/explore/${offset}`)
-		window.location.reload()
-		console.log(offset)
-
 	}
-	const buildUrl = () => {
-	  let url = "https://kitsu.io/api/edge/manga?sort=popularityRank"
-	  if(selectedGenre) url += `&filter[genres]=${selectedGenre}`;
-	  if(selectedStatus) url += `&filter[status]=${selectedStatus}`;
-	  if(selectedType) url += `&filter[subtype]=${selectedType}`;
-
-	 setUrl(url)
-	}
-
 	return(
 		<main>
 			<div>
@@ -89,17 +105,17 @@ export default function Explore(){
 						</select>
 					</li>
 					<li className="mt-3 text-center">
-						<button id="applyFilter" onClick={buildUrl}className="btn btn-filter btn-sm">
+						<button id="applyFilter" onClick={applyFilters}className="btn btn-filter btn-sm">
 							Filtrar
 						</button>
 					</li>
 				</ul>
 			</div>
-				<MangaProvider url={url}>
+				<MangaProvider url={url} >
 					<Card />
 				</MangaProvider>
 			<div className="d-flex justify-content-center mt-5 mb-5">
-				<button id="loadMore" onClick={handleClick} className="btn btn-loadMore btn-lg">
+				<button id="loadMore" onClick={handleLoadMore} className="btn btn-loadMore btn-lg">
 					Load More
 				</button>
 			</div>

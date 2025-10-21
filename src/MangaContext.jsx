@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect} from "react";
+import { createContext } from "react";
 import useMangaFetch from "./hooks/useMangaInfo";
 
 export const MangaContext = createContext()

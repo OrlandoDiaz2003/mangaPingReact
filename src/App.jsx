@@ -1,6 +1,6 @@
 import Navbar from './components/Navbar.jsx'
 import Index from './pages/Index.jsx'
-import MangaProvider, { MangaContext } from './MangaContext.jsx'
+import MangaProvider from './MangaContext.jsx'
 import AuthProvider from './AuthContext.jsx'
 import Login from './pages/Login.jsx'
 import Register from './pages/Register.jsx'
