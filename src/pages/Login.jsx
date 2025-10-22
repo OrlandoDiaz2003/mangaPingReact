@@ -34,7 +34,7 @@ export default function Login(){
 		localStorage.setItem("currentUser",JSON.stringify(user))
 		localStorage.setItem("login",JSON.stringify(true))
 		setLogin(true)
-		navigate("/explore")
+		navigate("/explore/0")
 	}
 
 	return(

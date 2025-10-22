@@ -49,7 +49,7 @@ export default function Register(){
 		const currentUser = { name:userName, mail:email, passwd:password }
 		localStorage.setItem("currentUser",JSON.stringify(currentUser))
 		console.log(userName)
-		navigate("/explore")
+		navigate("/explore/0")
 		return
 	}
 	return (
