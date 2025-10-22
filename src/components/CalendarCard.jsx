@@ -19,7 +19,7 @@ export default function CalendarCard() {
     };
 
     if (loading) {
-        return <div className="loading-message">Cargando mangas favoritos...</div>;
+        return <h1 className="loading-message" style={{color:"white"}}>Cargando mangas favoritos...</h1>;
     }
 
     if (error) {

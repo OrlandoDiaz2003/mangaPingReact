@@ -253,6 +253,12 @@ body {
 }
 
 /* manga.html form style */
+@media (max-width: 768px){
+	.manga-main{
+		display: flex;
+		flex-direction:column
+	}
+}
 .manga-container {
   margin-top: 5%;
   width: 100%;
