@@ -11,6 +11,17 @@ export default function Navbar() {
 	const navigate = useNavigate()
 	console.log("el estado de login es: "+ login)
 	console.log(title)
+	const handleSearch = (e) => {
+
+		e.preventDefault();
+		const encodedTitle = encodeURIComponent(title.trim())
+		if(encodedTitle){
+			navigate(`/explore/0/${encodedTitle}`)
+		}                          
+		else{
+			navigate(`/explore/0`)
+		}
+	}
 
 	return (
 		<header>
@@ -40,16 +51,17 @@ export default function Navbar() {
 						<ul className="navbar-nav ms-auto mb-2 mb-lg-0 w-100 justify-content-end gap-2">
 							{/* Buscador */}
 							<li className="nav-item my-2 d-flex justify-content-end">
-								<form className="d-flex" role="search">
+								<form className="d-flex" role="search" onSubmit={handleSearch}>
 									<input
 										className="form-control me-2"
 										type="search"
 										placeholder="Search"
+										value={title}
 										onChange={(e) => setTitle(e.target.value)}
 										aria-label="Search"
 										style={{ maxWidth: 250 }}
 									/>
-									<Link className="btn btn-search" to={`/manga/${title}`} type="submit"> Search </Link>
+									<button className="btn btn-search" type="submit"> Search </button>
 								</form>
 							</li>
 

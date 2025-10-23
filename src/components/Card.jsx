@@ -10,6 +10,9 @@ export default function Card(){
 		navigate(`/manga/${encodeURIComponent(title)}`)
 		console.log(title)
 	}
+	if(manga.length < 1){
+ 		return <h1 style={{color: "white"}}>No se han encontrado mas mangas</h1> 
+	}
 
 	return(
 	  <div id="card_containter" className="index-manga-card">

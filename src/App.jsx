@@ -22,7 +22,7 @@ export default function App(){
 							<Route path="/" element={<Index/>}/>
 							<Route path="/login" element={<Login/>}/>
 							<Route path="/register" element={<Register/>}/>
-							<Route path="/explore/:offset" element={<Explore/>}/>
+							<Route path="/explore/:offset/:title?" element={<Explore/>}/>
 							<Route path="/profile/" element={<Profile/>}/>
 							<Route path="/manga/:title" element={<MangaPage/>}/>
 							<Route path="/calendar" element={<CalendarPage/>}/>

@@ -2,6 +2,7 @@ import { useState } from "react"
 import Card from '../components/Card.jsx'
 import {  useParams, useNavigate} from "react-router-dom"
 import MangaProvider from "../MangaContext.jsx"
+import { useEffect } from "react"
 
 export default function Explore(){
 	const [selectedGenre, setSelectedGenre] = useState("")
@@ -9,45 +10,51 @@ export default function Explore(){
 	const [selectedType, setSelectedType] = useState("")
 	const navigate = useNavigate()
 
-	let {offset}= useParams()
-	offset = Number(offset) 
+	let {offset, title}= useParams()
+
+	console.log("offset:"+offset)
+	console.log("title:"+title)
+
+	offset = Number(offset)  
+
 	const limit =12 
 
-	const [url , setUrl] = useState(`https://kitsu.io/api/edge/manga?sort=popularityRank&page[limit]=${limit}&page[offset]=${offset}`)
+	const [url , setUrl] = useState(() => {
+		let baseUrl = `https://kitsu.io/api/edge/manga?sort=popularityRank&page[limit]=${limit}&page[offset]=${offset}`
+		if (title) baseUrl + `&filter[text]=${encodeURIComponent(title)}`
+		return baseUrl
+	},[offset,title])
+
+	useEffect(() => {
+		let baseUrl = `https://kitsu.io/api/edge/manga?sort=popularityRank&page[limit]=${limit}&page[offset]=${offset}`;
+		if (title) baseUrl += `&filter[text]=${encodeURIComponent(title)}`;
+		setUrl(baseUrl);
+	}, [offset, title]);
 
 	const applyFilters = () => {
-		offset=0;
 		let urlFilter = `https://kitsu.io/api/edge/manga?sort=popularityRank&page[limit]=${limit}&page[offset]=${offset}`
 		if(selectedStatus) urlFilter += `&filter[status]=${selectedStatus}`
 		if(selectedGenre) urlFilter  += `&filter[genres]=${selectedGenre}`
 		if(selectedType) urlFilter += `&filter[subtype]=${selectedType}`
+		if(title) urlFilter += `&filter[text]=${encodeURIComponent(title)}` 
 
 		console.log("the url with filters is :"+urlFilter)
-		navigate(`/explore/${0}`)
+		navigate(`/explore/0${title? `/${encodeURIComponent(title)}`: ""}`)
 		setUrl(urlFilter)
 	}
 	const handleLoadMore = ()=>{
 		offset += Number(12)
 
-		navigate(`/explore/${offset}`)
+		navigate(`/explore/${offset}${title ? `/${encodeURIComponent(title)}`: ""}`)
 		let baseUrl = `https://kitsu.io/api/edge/manga?sort=popularityRank&page[limit]=${limit}&page[offset]=${offset}`
 
 		//maintain the filters on the url after loading more mangas
-		if(selectedGenre){
-			baseUrl += `&filter[genres]=${selectedGenre}`
-			setUrl(baseUrl)
-		}
-		if(selectedStatus){
-			baseUrl += `&filter[status]=${selectedStatus}`
-			setUrl(baseUrl)
-		}
-		if(selectedType){
-			baseUrl += `&filter[subtype]=${selectedType}`
-		}
-		else{
-			setUrl(baseUrl)
-		}
+		if (title) baseUrl += `&filter[text]=${encodeURIComponent(title)}`
+		if(selectedGenre) baseUrl += `&filter[genres]=${selectedGenre}` 
+		if(selectedStatus) baseUrl += `&filter[status]=${selectedStatus}` 
+		if(selectedType) baseUrl += `&filter[subtype]=${selectedType}` 
 
+		setUrl(baseUrl)
 
 		console.log("la url de loadmore es: "+ baseUrl)
 		window.scrollTo(0,0)
