@@ -1,6 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import { describe, it, expect } from "vitest";
 import Card from "../src/components/Card";
 import { MangaContext } from "../src/MangaContext";
 
@@ -26,6 +25,7 @@ describe("Card component", () => {
 	expect(screen.getByText(/Monkey D. Luffy sets out to become the Pirate King./i)).toBeInTheDocument();
     expect(screen.getByRole("button", { name: /see more about this manga/i })).toBeInTheDocument();
   });
+
 });
 
 
