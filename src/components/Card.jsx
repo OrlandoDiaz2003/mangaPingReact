@@ -5,7 +5,18 @@ export default function Card() {
   const { manga, loading } = useContext(MangaContext);
   const navigate = useNavigate();
 
-  if (loading) return <h1 style={{ color: "white" }}>Cargando...</h1>;
+  if (loading) {
+	return (
+    <>
+      <div className="d-flex justify-content-center" style={{color:"white"}}>
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    </>
+  );
+}
+
   const handleClick = (title) => {
     navigate(`/manga/${encodeURIComponent(title)}`);
     console.log(title);

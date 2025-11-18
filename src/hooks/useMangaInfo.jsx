@@ -1,48 +1,63 @@
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 
-export default function useMangaFetch(url){
-    const [data, setData] = useState()
-    const [loading, setLoading] = useState(true)
-	const [error, setError] = useState()
+export default function useMangaFetch(url) {
+    const [data, setData] = useState();
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState();
 
-	useEffect(() => {
-		(async () =>{
-			try {
-				const response = await fetch(url)
-				if(!response.ok){
-					throw new Error(`Http error status code:${response.status}`)
-				}
-				const responseData = await response.json()
-				const mangaInfo = responseData.data.map((data) => {
-					const info = data.attributes
-					return {
-						title: info.titles.en ||  info.canonicalTitle,
-						description: info.description,
-						ranking: info.ratingRank,
-						popularityRank: info.popularityRank,
-						banner: info.posterImage.large,
-						endData: info.endDate,
-						startDate: info.startDate,
-						status: info.status,
-						chapterCount: info.chapterCount,
-						synopsis: info.synopsis,
-						volumeCount: info.volumeCount,
-						nextRelease: info.nextRelease,
-						updatedAt: info.updatedAt
-					}
-				}) 
-				setLoading(false)
-				setData(mangaInfo)
-				console.log(mangaInfo)
-			} catch (error) {
-				console.error(`Error: ${error}`)
-				setError(error)
+    useEffect(() => {
+        const abortController = new AbortController();
+        
+        setLoading(true);
+        setError(undefined);
+        setData(undefined);
 
-			}
-		})();
-	}, [url])
-	
-	return {data, loading, error}
+        (async () => {
+            try {
+                const response = await fetch(url, {
+                    signal: abortController.signal
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Http error status code: ${response.status}`);
+                }
+                
+                const responseData = await response.json();
+                const mangaInfo = responseData.data.map((data) => {
+                    const info = data.attributes;
+                    return {
+                        title: info.titles.en || info.canonicalTitle,
+                        description: info.description,
+                        ranking: info.ratingRank,
+                        popularityRank: info.popularityRank,
+                        banner: info.posterImage.large,
+                        endDate: info.endDate,
+                        startDate: info.startDate,
+                        status: info.status,
+                        chapterCount: info.chapterCount,
+                        synopsis: info.synopsis,
+                        volumeCount: info.volumeCount,
+                        nextRelease: info.nextRelease,
+                        updatedAt: info.updatedAt
+                    };
+                });
+                
+                setLoading(false);
+                setData(mangaInfo);
+                
+            } catch (error) {
+                if (error.name === 'AbortError') return;
+                
+                console.error(`Error: ${error}`);
+                setError(error);
+                setLoading(false);
+            }
+        })();
 
-
+        return () => {
+            abortController.abort();
+        };
+    }, [url]);
+    
+    return { data, loading, error };
 }
