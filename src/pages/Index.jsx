@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react'
+import { useContext, useMemo } from 'react'
 import Card from '../components/Card.jsx'
 import CalendarCard from '../components/CalendarCard.jsx'
 import { MangaContext } from '../MangaContext.jsx'
@@ -12,7 +12,7 @@ export default function Index() {
     if (!Array.isArray(manga)) return []
 
     const today = new Date()
-    // Extrae una fecha útil: nextRelease > updatedAt > null
+		
     const itemsWithDates = manga
       .filter(m => m && m.status !== 'finished')
       .map(m => {
@@ -40,7 +40,6 @@ export default function Index() {
 
   return (
     <main className="main-background">
-      {/* Mostrar 'Next releases' sólo si el usuario NO está iniciado sesión */}
       {!isLoggedIn && (
         <section className="mini-calendar" aria-label="Next releases calendar">
           <h2 className="calendar-title">Next releases</h2>

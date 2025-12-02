@@ -13,6 +13,7 @@ export default function useMangaFetch(url) {
         setData(undefined);
 
         (async () => {
+			if(!url) return
             try {
                 const response = await fetch(url, {
                     signal: abortController.signal
@@ -26,6 +27,7 @@ export default function useMangaFetch(url) {
                 const mangaInfo = responseData.data.map((data) => {
                     const info = data.attributes;
                     return {
+						id: data.id,
                         title: info.titles.en || info.canonicalTitle,
                         description: info.description,
                         ranking: info.ratingRank,
@@ -48,8 +50,9 @@ export default function useMangaFetch(url) {
             } catch (error) {
                 if (error.name === 'AbortError') return;
                 
-                console.error(`Error: ${error}`);
                 setError(error);
+
+                console.error(`Error: ${error}`);
                 setLoading(false);
             }
         })();

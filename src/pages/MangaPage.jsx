@@ -1,34 +1,61 @@
 import { useParams } from "react-router-dom";
 import useMangaFetch from "../hooks/useMangaInfo";
+import { useEffect, useState } from "react";
+import { authAPI, userAPI } from "../service/userServices";
 
 export default function MangaPage() {
   const { title } = useParams();
+  const [user, setUser] = useState(null);
+  const [favoriteIds, setFavoriteIds] = useState([]);
+
   const url = `https://kitsu.io/api/edge/manga?filter[text]=${encodeURIComponent(
     title
   )}`;
-  const { data, loading, error } = useMangaFetch(url);
-  let manga;
-  if (data && data.length > 0) {
-    manga = data[0];
-    console.log(manga);
-  }
-  console.log("titulo:" + title + "url" + url);
-  console.log("La data es: " + data);
+  const { data, loading } = useMangaFetch(url);
 
-  if (loading) {
+  const manga = data?.[0];
+  useEffect(() => {
+    (async () => {
+      const user = await authAPI.getCurrentUser();
+      setUser(user);
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (!user) return;
+    (async () => {
+      const favs = await userAPI.getFavorites(user.userId);
+      setFavoriteIds(favs.map(String));
+    })();
+  }, [user]);
+
+   if (loading || !manga) {
     return (
-      <>
-        <div
-          className="d-flex justify-content-center"
-          style={{ color: "white", marginTop:200}}
-        >
-          <div className="spinner-border" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
+      <div className="d-flex justify-content-center" style={{ color: "white", marginTop: 200 }}>
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
         </div>
-      </>
+      </div>
     );
   }
+  const isFavorite = favoriteIds.includes(String(manga.id))
+
+  const toggleFavorite = async () => {
+	if(!user) return ;
+
+	try{
+		if(isFavorite){
+			await userAPI.removeFavorite(user.userId, manga.id);
+			setFavoriteIds(favoriteIds.filter(id => id !== String (manga.id)))
+		}
+		else{
+			await userAPI.addFavorite(user.userId,String( manga.id))
+			setFavoriteIds([...favoriteIds, String(manga.id)])
+		}
+	}catch(err){
+		console.error("error al actualizar favoritos: ",err)
+	}
+  };
 
   return (
     <>
@@ -73,11 +100,8 @@ export default function MangaPage() {
               </div>
             </div>
             <div>
-              <button id="add-favorite-btn" className="btn btn-favorite">
-                Add to Favorites
-              </button>
-              <button id="follow-btn" className="btn btn-follow">
-                Follow
+              <button id="add-favorite-btn" className="btn btn-favorite" onClick={toggleFavorite}>
+				{isFavorite ? "Quitar de favoritos": "Agregar a favoritos"}
               </button>
             </div>
           </div>

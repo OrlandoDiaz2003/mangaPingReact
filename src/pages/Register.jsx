@@ -12,45 +12,53 @@ export default function Register(){
 	const [confirmEmail, setConfirmEmail] = useState("");
 	const [userName, setUserName] = useState("");
 	const [error, setError] = useState("");
+	const [loading, setLoading] = useState(false);
 
 	const navigate = useNavigate()
-	const handleSubmit = (e) =>{
+
+	const handleSubmit = async (e) => {
 		e.preventDefault();
+		setLoading(true)
 		
 		if(!userName || !email){
 			setError("Complete los campos para poder registrarse");
+			setLoading(false)
 			return;
 		}
 		if(email != confirmEmail){
 			setError("Los correos no coinciden")
+			setLoading(false)
 			return 
 		}
 		if(!password){
 			setError("Ingresa una contraseña valida")
+			setLoading(false)
 			return 
 		}
 		if(password != confirmPassword){
 			setError("Las contraseñas no coinciden")
+			setLoading(false)
 			return
 		}
 
 		if(password.length < 8){
 			setError("La contraseña tiene que tener mas de 8 caracteres")
+			setLoading(false)
 			return 
 		}
 		
-		const users = JSON.parse(localStorage.getItem("users")) || [];
-        const exits = users.some(users => users.mail === email || users.name === userName)
-		if(exits){
-			setError("Esta cuenta ya existe")
-			return
+		try{
+			await register({ username: userName, email: email, password: password })
+			
+			console.log("conexion exitosa")
+			navigate("/explore/0")
 		}
-		register({ username: userName,email: email, password: password })
-		const currentUser = { name:userName, mail:email, passwd:password }
-		localStorage.setItem("currentUser",JSON.stringify(currentUser))
-		console.log(userName)
-		navigate("/explore/0")
-		return
+		catch(error){
+			setError(error.message || "Error al registrarse")
+		}
+		finally{
+			setLoading(false)
+		}
 	}
 	return (
     <main className="register-background">
@@ -64,6 +72,7 @@ export default function Register(){
             onChange={(e) => setUserName(e.target.value)}
             id="input-name"
             placeholder="UserName"
+			disabled={loading}
           />
           <label htmlFor="Name">User Name</label>
         </div>
@@ -75,6 +84,7 @@ export default function Register(){
             id="input-email"
             onChange={(e) => setEmail(e.target.value)}
             placeholder="name@example.com"
+			disabled={loading}
           />
           <label htmlFor="floatingInput">Email Address</label>
         </div>
@@ -86,6 +96,7 @@ export default function Register(){
             id="input-email-confirm"
             onChange={(e) => setConfirmEmail(e.target.value)}
             placeholder="name@example.com"
+			disabled={loading}
           />
           <label htmlFor="floatingInput">Email Address Confirm</label>
         </div>
@@ -98,6 +109,7 @@ export default function Register(){
             className="form-control"
             id="input-password"
             placeholder="Password"
+			disabled={loading}
           />
           <label htmlFor="floatingPassword">Password</label>
         </div>
@@ -109,6 +121,7 @@ export default function Register(){
             onChange={(e) => setConfirmPassword(e.target.value)}
             id="input-password-confirm"
             placeholder="Password"
+			disabled={loading}
           />
           <label htmlFor="floatingPassword">Confirm password</label>
         </div>
@@ -118,6 +131,7 @@ export default function Register(){
             onClick={handleSubmit}
             type="submit"
             className="btn btn-primary register-btn"
+			disabled={loading}
           >
             {" "}
             SignUp

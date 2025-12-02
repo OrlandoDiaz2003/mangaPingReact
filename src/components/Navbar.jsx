@@ -11,6 +11,7 @@ export default function Navbar() {
 	const navigate = useNavigate()
 	console.log("el estado de login es: "+ login)
 	console.log(title)
+
 	const handleSearch = (e) => {
 
 		e.preventDefault();

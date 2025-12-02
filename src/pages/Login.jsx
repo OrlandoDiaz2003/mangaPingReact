@@ -6,35 +6,36 @@ export default function Login(){
 	const [username, setUsername] = useState("")
 	const [password, setPassword] = useState("")
 	const [error, setError] = useState("")
+	const [loading, setLoading] = useState(false)
 	const navigate = useNavigate()
 
-	const {setLogin}  = useContext(AuthContext)
+	const { loginUser }  = useContext(AuthContext)
 
 
-	const handleSubmit = (e) =>{
+	const handleSubmit = async (e) =>{
 		e.preventDefault()
+		setLoading(true)
 
 		if(!username){
 			setError("Enter a valid user name")
+			setLoading(false)
+			return
 		}
 
 		if(!password){
 			setError("You have to enter a password to login")
-		}
-
-		const users = JSON.parse(localStorage.getItem("users"))||[];
-
-		const exits = users.some(user => user.name === username && user.passwd === password)
-
-		if(!exits){
-			setError("No se ha encontrado este usuario")
+			setLoading(false)
 			return
 		}
-		const user = users.find((user) => user.name === username)
-		localStorage.setItem("currentUser",JSON.stringify(user))
-		localStorage.setItem("login",JSON.stringify(true))
-		setLogin(true)
-		navigate("/explore/0")
+		try{
+			await loginUser(username, password)
+			navigate("/explore/0")
+		}catch(error){
+			setError(error.message || "Credenciales incorrectas")
+		}finally{
+			setLoading(false)
+		}
+
 	}
 
 	return(
@@ -48,6 +49,8 @@ export default function Login(){
 						onChange={(e) => setUsername(e.target.value)}
 						className="form-control"
 						placeholder="Password"
+						disabled={loading}
+						value={username}
 					/>
 					<label htmlFor="Name">User Name</label>
 				</div>
@@ -58,6 +61,8 @@ export default function Login(){
 						onChange={(e) => setPassword(e.target.value)}
 						className="form-control"
 						placeholder="Password"
+						disabled={loading}
+						value={password}
 					/>
 					<label htmlFor="floatingPassword">Password</label>
 				</div>
@@ -67,9 +72,10 @@ export default function Login(){
 						type="submit"
 						className="btn btn-primary register-btn"
 						onClick={handleSubmit}
+						disabled={loading}
 					>
 						{" "}
-						Sign In
+				{loading ? "Iniciando sesion": "Sign In" }
 					</button>
 				</div>
 				{error && <p style={ {color:"red" }}>{error}</p>}
