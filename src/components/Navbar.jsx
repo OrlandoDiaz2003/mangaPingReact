@@ -68,7 +68,7 @@ export default function Navbar() {
 
 							{login && 
 								<>
-									<div style={{alignContent:"center"}}>
+									<div className="d-flex align-items-center gap-2" style={{alignContent:"center"}}>
 										<Link id="btn-explore" to="/explore/0" className="btn-nav btn">
 											Explore
 										</Link>

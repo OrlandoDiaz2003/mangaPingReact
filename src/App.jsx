@@ -8,15 +8,13 @@ import Explore from './pages/Explore.jsx'
 import Profile from './pages/Profile.jsx'
 import MangaPage from './pages/MangaPage.jsx'
 import CalendarPage from './pages/CalendarPage.jsx'
-import { BrowserRouter, Routes,Route } from 'react-router-dom'
+import { Routes,Route } from 'react-router-dom'
 
 export default function App(){
 	return(
 		<>
 			<AuthProvider>
-
 				<MangaProvider>
-					<BrowserRouter>
 						<Navbar/>
 						<Routes>
 							<Route path="/" element={<Index/>}/>
@@ -27,9 +25,7 @@ export default function App(){
 							<Route path="/manga/:title" element={<MangaPage/>}/>
 							<Route path="/calendar" element={<CalendarPage/>}/>
 						</Routes>
-					</BrowserRouter>
 				</MangaProvider>
-
 			</AuthProvider>
 		</>
 	)

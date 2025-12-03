@@ -43,8 +43,8 @@ export default function Index() {
       {!isLoggedIn && (
         <section className="mini-calendar" aria-label="Next releases calendar">
           <h2 className="calendar-title">Next releases</h2>
-          <p className="p-index">
-            To stay updated with the latest manga releases, check out our personalized calendar feature. <a href="/register">Sign up</a> to track your favorite series and never miss a release date!
+          <p className="p-index" style={{wordWrap:true}}>
+            To stay updated with the latest manga releases, check out our personalized calendar feature. <strong>Sign up</strong> to track your favorite series and never miss a release date!
           </p>
 
           {loading ? (
@@ -53,7 +53,6 @@ export default function Index() {
             <CalendarCard />
           )}
 
-          <p className="calendar-note">TO personalize your calendar, sign up</p>
         </section>
       )}
 

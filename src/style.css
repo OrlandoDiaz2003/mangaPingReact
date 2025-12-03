@@ -34,6 +34,13 @@ body {
   border-color: var(--color-primary);
 }
 
+.btn-nav{
+	gap: 10px;
+}
+.btn-nav{
+	gap: 10px;
+}
+
 .btn-login:hover, .btn-search:hover, .btn-primary:hover, 
 .btn-loadMore:hover, .btn-filter:hover, .btn-favorite:hover, 
 .btn-follow:hover, .btn-nav:hover {
@@ -246,6 +253,12 @@ body {
   border-radius: 1vh;
 }
 
+@media (max-width: 768px){
+	.favorites-photo{
+		max-width: 100px;
+		max-height: 100px;
+	}
+}
 .favorites-photo {
   border-radius: 5vh;
   border: var(--color-primary-dark) 1px 1px solid;
